@@ -31,3 +31,25 @@
       * 重启防火墙
 
         * firewall-cmd --reload
+  
+* 使用jenkins进行CI/CD
+
+  * jenkins配置jdk,maven，配置远程部署机器的连接信息，安装maven,git，ssh相关插件
+
+  * 如果是私有仓库则需要配置私钥允许jenkins拉取仓库
+
+  * 新建maven构建项目
+
+  * 构建后动作配置如下，也就是把构建包复制到远程机器目录，执行相关运行命令：
+
+    * ![image-20211003173217728](.\img\image-20211003173217728.png)
+
+    * ```bash
+      cd /root/visitor
+      rm -rf app.jar
+      mv *.jar app.jar
+      netstat -ntlp | grep 9091 | awk '{print $7}' | cut -d '/' -f 1 | xargs kill -s 9
+      nohup java -jar app.jar >> /dev/null 2>&1 &
+      ```
+
+    * 
